@@ -97,7 +97,7 @@ class ASAI_SVRG(optim.Optimizer):
                     state = self.state[p]
                     state["full_grad"].div_(total_data)
 
-                    if "current_p_temp" in state:
+                    if "hat_x" in state:
                         p.copy_(state["w"])
                         del state["w"]
 

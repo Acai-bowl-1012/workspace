@@ -61,6 +61,12 @@ class ASAI_SVRG(optim.Optimizer):
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         total_data = 0
 
+        model_state = {
+        k: v.detach().clone()
+        for k, v in model.state_dict().items()
+        }
+        training = model.training
+
         with torch.no_grad():
             for group in self.param_groups:
                 for p in group['params']:
@@ -112,6 +118,10 @@ class ASAI_SVRG(optim.Optimizer):
                         diff_norm_sum += torch.sum(diff ** 2).item()
 
         diff_norm = math.sqrt(diff_norm_sum)
+
+        with torch.no_grad():
+            model.load_state_dict(model_state)
+        model.train(training)
 
         return diff_norm
 

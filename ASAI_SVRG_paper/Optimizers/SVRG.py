@@ -32,7 +32,6 @@ class SVRG(optim.Optimizer):
                     if p.grad is None:
                         continue
 
-
                     grad = p.grad.detach()
                     state = self.state[p]
                     state["z"].add_(grad)

@@ -113,8 +113,8 @@ class ASAI_SVRG(optim.Optimizer):
                 for p in group['params']:
                     state = self.state[p]
 
-                    if "a" in state and "full_grad" in state:
-                        diff = state["a"] - state["full_grad"]
+                    if "hat_a" in state and "full_grad" in state:
+                        diff = state["hat_a"] - state["full_grad"]
                         diff_norm_sum += torch.sum(diff ** 2).item()
 
         diff_norm = math.sqrt(diff_norm_sum)
